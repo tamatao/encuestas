@@ -54,13 +54,13 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
-			'database'  => 'database',
-			'username'  => 'root',
-			'password'  => '',
+			'host'      => 'sql5c75c.carrierzone.com',
+			'database'  => 'survey_sconsultor224661',
+			'username'  => 'sconsultor224661',
+			'password'  => 'qwerty12',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
-			'prefix'    => '',
+			'prefix'    => 'sc_sv_',
 		),
 
 		'pgsql' => array(

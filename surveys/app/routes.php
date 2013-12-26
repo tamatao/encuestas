@@ -11,7 +11,34 @@
 |
 */
 
-Route::get('/', function()
+// Route::get('/', function()
+// {
+// 	return View::make('hello');
+// });
+
+Route::get('/', array('before' => 'auth', function()
 {
-	return View::make('hello');
+    // Only authenticated users may enter...
+}));
+
+Route::get('login', function(){
+	return View::make('login', array('name' => 'Taylor'));
+	// $sUser = Input::get("user");
+	// $sPassword = Input::get("password");
 });
+
+Route::post('authuser', array("as"=>"authuser", function(){
+	$sUser = Input::get("user");
+	$sPassword = Input::get("password");
+	if (true || Auth::attempt(array('email' => $sUser, 'password' => $sPassword)))
+	{
+	    return Redirect::to('dashboard');
+	}
+}));
+
+Route::get('dashboard', array("as"=>"dashboard", /*'before' => 'auth',*/ function(){
+	View::share("pageName", "Dashboard");
+	return View::make('app', array());
+}));
+
+Route::controller('users', 'UserController');
