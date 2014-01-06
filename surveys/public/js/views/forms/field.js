@@ -9,12 +9,19 @@ define([
       var self = this,
       aTemplate = _.template(FieldTemplate),
       aField = self.options.field,
+      aValue = self.options.value || aField.defaultValue,
       $el = $(aTemplate({name:aField.name, label:aField.label})),
       $input;
 
       switch(aField.type) {
+        case 'numeric': 
+          $input = $('<input/>', {type:'numeric'});
+          break;
         case 'text': 
           $input = $('<input/>', {type:'text'});
+          break;
+        case 'textarea':
+          $input = $('<textarea/>');
           break;
         case 'password': 
           $input = $('<input/>', {type:'password'});
@@ -23,18 +30,28 @@ define([
           $input = $('<div/>');
           if(aField.answers) {
             for(var i=0; i<aField.answers.length; i++) {
-              $input.append('<label class="radio-inline"><input type="radio" name='+aField.name+' value='+ aField.answers[i] +'>'+ aField.answers[i] +'</label>');
+              if($.isPlainObject(aField.answers[i])) {
+                var text = aField.answers[i].text, value = aField.answers[i].value;
+              } else {
+                var text = aField.answers[i], value = aField.answers[i];
+              }
+              $input.append('<label class="radio-inline"><input data-description="'+ text +'" type="radio" name='+aField.name+' value='+ value +'>'+ text +'</label>');
             }
             $input.append('<label for="'+ aField.name +'" class="error"></label>')
           }          
           break;
         case 'list':
-          $input = $('<select/>', {});
+          $input = $('<select/>', {})
           break;
         case 'header':
           return $input = $('<h4>'+ aField.label + '</h4>');
           break;
+        case 'hidden':
+          $input = $('<input/>', {type:'hidden'});
+          break;
       }
+
+      !aValue || $input.value(aValue);
 
       if(aField.type != 'single_choice') {
         $input.addClass('form-control')
@@ -42,9 +59,20 @@ define([
         $input.attr('placeholder', aField.label);  
       }
       
-      $formControl = $el.find('.control').empty().append($input);
-
+      $formControl = $el.find('.control').empty().append($input, $('<span/>', {'class':'help-block'}).html((aField.helpText ? aField.helpText : '')));
+      $el.attr('data-fieldgroup', aField.name);
       self.$el = $el;
+
+      //mejoramos los componentes
+      switch(aField.type) {
+        case 'list':
+          $formControl.find('select').select2();
+          break;
+      }
+
+      if(aField.type == 'hidden') {
+        self.$el.hide();
+      }
       
       return self.$el;
     }

@@ -12,6 +12,7 @@ define([
       'dashboard': 'dashboard',
       'configuration': 'configuration',
       'users/add': 'form',
+      'survey/add': 'form',
       'manager': 'manager',
       //pages surveys
       'surveys/:name/:id': 'showSurvey',
@@ -48,7 +49,8 @@ define([
     router.on('route:form', function() {
       var sModel = null;
       switch(Backbone.history.fragment) {
-        case 'users/add': sModel = 'users'
+        case 'users/add': sModel = 'user'; break;
+        case 'survey/add': sModel = 'survey'; break;
       }
       if(sModel == '') {
         //modelo invalido
@@ -56,7 +58,7 @@ define([
       }
       require(['views/forms/basicForm', 'models/'+sModel], function(BasicFormPage, Model) {
         var basicFormPage = Vm.create(appView, 'BasicFormPage', BasicFormPage, {model: new Model()});
-        basicFormPage.render();
+        $('.main').empty().append(basicFormPage.render());
       })
     })
 

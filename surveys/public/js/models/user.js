@@ -51,6 +51,23 @@ define([
         rules: {
           required: true
         }
+      },
+      {
+        name: 'relationUserSurvey',
+        type: 'collection'
+      }
+    ],
+    /**
+    * details, es la lista de los modelos detalle para la forma
+    */
+    details:[
+      {
+        'model':'relationUserSurvey',
+        'view':'relationUserSurvey',
+        'field':'relationUserSurvey',
+        'foreign_key': {
+          'id_user':'id'
+        }
       }
     ],
     defaults: {

@@ -3,12 +3,17 @@
 require.config({
   shim: {
     jquery: {
-      deps: ['libs/jquery/jquery-min']
+      deps: ['bootstraplibs']
     },
+    bootstraplibs: {
+      deps: ['jquerylibs']
+    }
   },
   paths: {
     // Major libraries
     jquery: 'libs/jquery/jquery-ui-min',
+    jquerylibs: 'libs/jquery/jquery-min',
+    bootstraplibs: 'vendor/bootstrap.min',
     underscore: 'libs/underscore/underscore-min', // https://github.com/amdjs
     lodash: 'libs/lodash/lodash', // alternative to underscore
     backbone: 'libs/backbone/backbone-min', // https://github.com/amdjs
@@ -29,7 +34,8 @@ require.config({
 require([
   'views/app',
   'router',
-  'vm'
+  'vm',
+  'libs/misc/utils'
 ], function(AppView, Router, Vm){
   window.appView = Vm.create({}, 'AppView', AppView);
   appView.render();

@@ -1,10 +1,12 @@
-require(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
+define(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
   console.log('table')
   $.widget("ui.table", {
     options: {
       url: null,
       checkbox: true,
       columns:[],
+      /** Tipo de vistas, inline, agrega el formulario abajo de la vista */
+      type:'default',
       pagination: {
         'total':0,
         'per_page':15,
@@ -20,24 +22,11 @@ require(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
 
       self.element.append(
           self._createControlsHeader(),
-          self._createTable()
+          self._createTable(),
+          self._createForm()
         );
       self._buildPage();
-      self.tBody.finderSelect({enableDesktopCtrlDefault:true});
-      self.tBody.finderSelect('addHook','highlight:before', function(el) {
-        el.find('input').prop('checked', true);
-        !el.length || self.controlsHeader.find('.btn-trash').show();
-      });
-      self.tBody.finderSelect('addHook','unHighlight:before', function(el) {
-        el.find('input').prop('checked', false);
-        if(self.tBody.find("input[type='checkbox']:checked").length==0) {
-          self.tHead.find("input[type='checkbox']").prop('checked', false);
-          self.controlsHeader.find('.btn-trash').hide();
-        }
-      });
-      self.tBody.on("click", ":checkbox", function(e){
-        e.preventDefault();
-      });
+      
       self.tHead.find("input[type='checkbox']").change(function () {
         if ($(this).is(':checked')) {
           self.tBody.finderSelect('highlightAll');
@@ -45,6 +34,17 @@ require(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
           self.tBody.finderSelect('unHighlightAll');
         }
       });
+
+      if(self.options.collection) {
+        self.options.collection.on('add', function(aModel) { 
+          self._addRow(aModel.attributes);
+          self._updateUI();
+        })
+        self.options.collection.on('change', function(aModel)  {
+          self._addRow(aModel.attributes);
+          self._updateUI();
+        })
+      }
     },
 
     _createControlsHeader: function() {
@@ -52,7 +52,9 @@ require(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
 
       btnNew = $('<a/>', {'class': 'btn btn-primary btn-mini btn-new', href:self.options.btnNew}).html('New');
       btnRemove = $('<button/>', {'class': 'btn btn-primary btn-mini btn-trash'}).hide().html('Send Selected to Trash');
-      list.append($('<li/>').append(btnNew));
+      console.debug(self.options.type)
+      if(self.options.type != 'inline')
+        list.append($('<li/>').append(btnNew));
       list.append($('<li/>').append(btnRemove));
 
       btnRemove.on('click', function(){self._removeAllSelected()});
@@ -66,10 +68,52 @@ require(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
       return $('<table/>', {'class':'table table-condensed'}).append(this._createTableHeader(), this.tBody);
     },
 
+    _createForm: function() {
+      var self = this;
+      if(self.options.type != 'inline')
+        return null;
+
+      $form = $('<div/>');
+      var containerButton = $('<div/>', {'class':'containerButtonAdd'}).append(
+        $('<button/>', {'class': 'btn btn-default btn-sm'}).html('Add...').on('click', function(){
+          self._open();
+        })
+      );
+      $form.append(
+        containerButton
+      );
+      /*
+      require(['views/forms/inlineForm', 'Vm'], function(BasicForm, Vm){
+        var aModel = aModelEdit || new self.options.collection.model();
+        var detailForm = Vm.create(appView, (aModelEdit ? 'editDetailForm' : 'detailForm'), BasicForm, {model:aModel, collection: self.options.collection});
+        if(!aModelEdit) {
+          var detailFormContainer = $('<div/>').append(detailForm.render()).hide();
+          var containerButton = $('<div/>', {'class':'containerButtonAdd'}).append(
+                  $('<button/>', {'class': 'btn btn-default btn-sm'}).html('Add ' + aModel.label).on('click', function(){
+                    detailFormContainer.show();
+                    containerButton.hide();
+                  })
+                );
+          $form.append(
+              containerButton,
+              detailFormContainer
+            );  
+        } else {
+          $form.append(detailForm.render());
+          detailForm.hideButtons();
+        }        
+      })*/
+
+      return $form;
+    },
+
     _createTableHeader: function() {
       var tHead = $('<thead/>'), columns = this.options.columns, myTR = $('<tr/>');
       if(this.options.checkbox) {
-        myTR.append($('<th/>').append($('<input/>', {type:'checkbox'})));
+        myTR.append($('<th/>', {'class':'checked'}).append($('<input/>', {type:'checkbox'})));
+      }
+      if(this.options.sortable) {
+        myTR.append($('<th/>', {'class':'handle'}));
       }
       for(var i=0; i<columns.length; i++) {
         myTR.append($('<th/>').html(columns[i].label));
@@ -86,44 +130,148 @@ require(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
       var self = this;
       if(self.options.url) {
         $.ajax({url:self.options.url, data:{}}).then(function(res){
-
+          self._onAfterCreatePage();
         }, function(res) {
 
         });
-      } else if(self.options.data) {
-        for(var i = 0; i<self.options.data.length; i++) {
-          self._addRow(self.options.data[i]);
+      } else {
+        if(self.options.data) {
+          for(var i = 0; i<self.options.data.length; i++) {
+            self._addRow(self.options.data[i]);
+          }
         }
+        self._onAfterCreatePage();
       }
     },
   
     _addRow: function(row) {
-      var self = this, myTR = $("<tr/>"), columns = self.options.columns, myTD;
+      var self = this, myTR = self.tBody.find('TR[data-id="'+ row.id +'"]'), columns = self.options.columns, myTD, bEdit = false, sValue;
+
+      if(myTR.length == 0) {
+        myTR = $("<tr/>");
+      } else {
+        myTR.empty();
+        bEdit = true;
+      }
+      myTR.attr('id', 'item_' + row.id);
+      myTR.data('id', row.id).attr('data-id', row.id);
       if(self.options.checkbox) {
-        myTR.append('<td><input type="checkbox" /></th>');
+        myTR.append('<td class="checked"><input type="checkbox" /></td>');
+      }
+      if(self.options.sortable) {
+        myTR.append('<td class="handle"><i class="fa fa-sort"></i></td>'); 
       }
       for(var i = 0; i<columns.length; i++) {
         myTD = $('<td/>');
+        sValue = row[columns[i].name];
+        if($.isPlainObject(sValue)) {
+          for(var key in sValue) break;
+          sValue = sValue[key];
+        }
         switch(columns[i].type) {
           case 'link':
-            myTD.html($('<a/>', {href:row[columns[i].name]}).html(columns[i].label)).addClass('safezone');
+            myTD.html($('<a/>', {href:sValue}).html(columns[i].label)).addClass('safezone');
             break;
           default:
-            myTD.html(row[columns[i].name]);
+            myTD.append($('<span/>', {'class':'safezone open'}).html(sValue));
         }        
         myTR.append(myTD);
       }
-      myTR.find(".safezone").on("mousedown", function(e){
-            return false;
+      myTR.find(".safezone").on("click", function(e){
+        return false;
       });
-      self.tBody.append(myTR);      
+      myTR.find('.handle').on('mouseenter', function(e) {
+         return false;
+      })
+      myTR.find('.safezone.open').on('click', function(e) {
+        self._open(row.id);
+      })
+      if(!bEdit)
+        self.tBody.append(myTR);      
+    },
+
+    _open: function(id) {
+      var self = this, aModel, bisEdit = false;
+
+      if(!id) {
+        aModel = new self.options.collection.model();
+        aModel.set('sortableKey', self.options.collection.length);
+      } else {
+        aModel = self.options.collection.get(id);
+        bisEdit = true;     
+      }
+     
+      require(['views/modal/basicModal', 'views/forms/inlineForm', 'Vm'], function(BasicModal, BasicForm, Vm){
+        var detailForm = Vm.create(appView, (bisEdit ? 'editDetailForm' : 'detailForm'), BasicForm, {model:aModel, collection: (bisEdit ? null : self.options.collection)});
+        var $form = detailForm.render()
+        detailForm.hideButtons();
+        var aModal = Vm.create(appView, 'modal', BasicModal, {modalTitle: (bisEdit ? 'Edit...' : 'Add'), callback: function(){
+          if(detailForm.submit()) {
+            $modal.modal('hide')/*.remove();
+            aModal.remove();*/
+          } 
+        }});
+        var $modal = aModal.render();
+        $modal.find('.modal-body').append($form);
+        $('body').append($modal);
+      })
     },
 
     _removeAllSelected: function() {
-      this.tBody.find("input[type='checkbox']:checked").parents('TR').remove();
+      var self = this;
+      this.tBody.find("input[type='checkbox']:checked").parents('TR').each(function(i, element) {
+        var aId = $(element).data('id'),
+        aModel = self.options.collection.get(aId);
+        self.options.collection.remove(aModel);
+        $(element).remove();
+      })
       if(this.tBody.find("input[type='checkbox']").length == 0) {
         this.controlsHeader.find('.btn-trash').hide();
         this.tHead.find("input[type='checkbox']").prop('checked', false);
+      }
+      this._updateUI();
+    },
+
+    _onAfterCreatePage: function() {
+      this._updateUI();
+    },
+
+    _updateUI: function() {
+      var self = this;
+      if(this.tBody.find('tr').not('.nodata').length) {
+        this.tBody.finderSelect({enableDesktopCtrlDefault:true, dragEvent:'', event:'click'});
+        self.tBody.finderSelect('addHook','highlight:before', function(el) {
+          el.find('input').prop('checked', true);
+          !el.length || self.controlsHeader.find('.btn-trash').show();
+        });
+        self.tBody.finderSelect('addHook','unHighlight:before', function(el) {
+          el.find('input').prop('checked', false);
+          if(self.tBody.find("input[type='checkbox']:checked").length==0) {
+            self.tHead.find("input[type='checkbox']").prop('checked', false);
+            self.controlsHeader.find('.btn-trash').hide();
+          }
+        });
+        self.tBody.on("click", ":checkbox", function(e){
+          //e.preventDefault();
+        });
+        this.tBody.find('.nodata').remove();
+        if(self.options.sortable) {
+          self.tBody.sortable({ handle: ".handle .fa-sort", axis: "y", forceHelperSize: true, forcePlaceholderSize: true, opacity: 0.5, cursor: "move" });
+          self.tBody.sortable({
+            update: function( event, ui ) {
+              var res = self.tBody.sortable( "toArray", { attribute: "data-id"/*, expression: /(.+)[_=-](.+)/*/ } )
+              for(var i = 0; i < res.length; i++) {
+                var aModel = self.options.collection.get(res[i]);
+                if(aModel) {
+                  aModel.set('sortableKey', i);
+                }
+              }               
+            }
+          });
+        }
+      } else {
+        if(!this.tBody.find('.nodata').length)
+          this.tBody.append('<tr class="nodata"><td colspan="'+ (this.options.columns.length + (this.options.checkbox ? 1 : 0)) +'">No se encontraron datos</td></tr>')
       }
     },
   
