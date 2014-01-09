@@ -3,6 +3,8 @@ define([
   'backbone'
 ], function(_, Backbone) {
   var usersModel = Backbone.Model.extend({
+    name: 'User',
+    url: 'users',
     fields: [
       {
         name: 'email',
