@@ -30,7 +30,7 @@ define([
       },
       {
         name: 'puesto',
-        type: 'list',
+        type: 'text',
         label: 'Puesto',
         rules: {
           required: true
@@ -38,7 +38,7 @@ define([
       },
       {
         name: 'area',
-        type: 'list',
+        type: 'text',
         label: 'Area',
         rules: {
           required: true
@@ -46,11 +46,13 @@ define([
       },
       {
         name: 'type',
-        type: 'list',
+        type: 'single_choice',
         label: 'Tipo',
         rules: {
           required: true
-        }
+        },
+        answers:[{value:'0', text:'Administrador'}, {value:'1', text:'Usuario'}],
+        defaultValue: 'Usuario'
       },
       {
         name: 'relationUserSurvey',
