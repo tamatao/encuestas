@@ -41,7 +41,7 @@ define([
           }          
           break;
         case 'list':
-          $input = $('<select/>', {})
+          $input = $('<input/>', {type:'hidden'})
           break;
         case 'header':
           return $input = $('<h4>'+ aField.label + '</h4>');
@@ -66,7 +66,19 @@ define([
       //mejoramos los componentes
       switch(aField.type) {
         case 'list':
-          $formControl.find('select').select2();
+          $formControl.find('input').select2({query: function(query){
+            $.ajax(aField.catalog.url, {
+              timeout:180
+            }).then(function(response) {
+              var data = {results: []};
+              $.each(response, function() {
+                if(query.term.length == 0 || this.text.toUpperCase().indexOf(query.term.toUpperCase()) >= 0 ){
+                  data.results.push({id: aField.catalog.id, text: aField.catalog.text });
+                }
+              });     
+              query.callback(data);             
+            })
+          }});
           break;
       }
 

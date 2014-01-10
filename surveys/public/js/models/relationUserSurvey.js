@@ -12,6 +12,11 @@ define([
         label: 'Usuario a encuestar',
         rules: {
           required: true
+        },
+        catalog: {
+          url:'users',
+          text:'email',
+          id:'id'
         }
       },
       {
@@ -20,6 +25,11 @@ define([
         label: 'Encuesta',
         rules: {
           required: true
+        },
+        catalog: {
+          url:'survey',
+          text:'name',
+          id:'id'
         }
       },
       {
