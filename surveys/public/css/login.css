@@ -31,7 +31,7 @@ html, body {
 	
 }
 */
-#container {
+#container.login {
 	position: fixed;
 	width: 340px;
 	/*height: 280px;*/
@@ -60,12 +60,12 @@ html, body {
 	animation-timing-function: linear;
 }
 
-form {
+#container.login form {
 	margin: 0 auto;
 	margin-top: 20px;
 }
 
-label {
+#container.login label {
 	color: #555;
 	display: inline-block;
 	margin-left: 18px;
@@ -73,7 +73,7 @@ label {
 	font-size: 14px;
 }
 
-p a {
+#container.login p a {
 	font-size: 11px;
 	color: #aaa;
 	float: right;
@@ -84,18 +84,18 @@ p a {
 	transition: all .4s ease;
 }
 
-p a:hover {
+#container.login p a:hover {
 	color: #555;
 }
 
-input {
+#container.login input {
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
 	font-size: 12px;
 	outline: none;
 }
 
-input[type=name],
-input[type=password] {
+#container.login input[type=name],
+#container.login input[type=password] {
 	color: #777;
 	padding-left: 10px;
 	margin: 10px;
@@ -111,19 +111,19 @@ input[type=password] {
 	transition: all .4s ease;
 }
 
-input[type=name]:hover,
-input[type=password]:hover {
+#container.login input[type=name]:hover,
+#container.login input[type=password]:hover {
 	border: 1px solid #b6bfc0;
 	box-shadow: inset 0 1.5px 3px rgba(190, 190, 190, .7), 0 0 0 5px #f5f7f8;
 }
 
-input[type=name]:focus,
-input[type=password]:focus {
+#container.login input[type=name]:focus,
+#container.login input[type=password]:focus {
 	border: 1px solid #a8c9e4;
 	box-shadow: inset 0 1.5px 3px rgba(190, 190, 190, .4), 0 0 0 5px #e6f2f9;
 }
 
-#lower {
+#container.login #lower {
 	background: #ecf2f5;
 	width: 100%;
 	height: 69px;
@@ -134,19 +134,19 @@ input[type=password]:focus {
 	border-bottom-left-radius: 3px;
 }
 
-input[type=checkbox] {
+#container.login input[type=checkbox] {
 	margin-left: 20px;
 	margin-top: 30px;
 }
 
-.check {
+#container.login .check {
 	margin-left: 3px;
 	font-size: 11px;
 	color: #444;
 	text-shadow: 0 1px 0 #fff;
 }
 
-button[type=submit] {
+#container.login button[type=submit] {
 	float: right;
 	margin-right: 20px;
 	margin-top: 20px;
@@ -164,13 +164,13 @@ button[type=submit] {
 	cursor: pointer;
 }
 
-input[type=submit]:hover {
+#container.login input[type=submit]:hover {
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#b6e2ff), to(#6ec2e8));
 	background-image: -moz-linear-gradient(top left 90deg, #b6e2ff 0%, #6ec2e8 100%);
 	background-image: linear-gradient(top left 90deg, #b6e2ff 0%, #6ec2e8 100%);
 }
 
-input[type=submit]:active {
+#container.login input[type=submit]:active {
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#6ec2e8), to(#b6e2ff));
 	background-image: -moz-linear-gradient(top left 90deg, #6ec2e8 0%, #b6e2ff 100%);
 	background-image: linear-gradient(top left 90deg, #6ec2e8 0%, #b6e2ff 100%);
