@@ -19,6 +19,7 @@ define([
       //pages surveys
       'surveys/:name/:id': 'showSurvey',
       'login':'login',
+      'report':'report',
       // Default - catch all
       '*actions': 'defaultAction'
     },
@@ -63,6 +64,13 @@ define([
         var loginPage = Vm.create(appView, 'LoginPage', LoginPage);
         $('body').empty().append(loginPage.render());
       });
+    })
+
+    router.on('route:report', function() {
+      require(['views/report/report'], function(ReportView) {
+        var reportView = Vm.create(appView, 'ReportView', ReportView);
+        $('.main').append(reportView.render());
+      })
     })
 
     router.on('route:users', function () {
