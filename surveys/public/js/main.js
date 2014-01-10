@@ -7,6 +7,9 @@ require.config({
     },
     bootstraplibs: {
       deps: ['jquerylibs']
+    },
+    routefilter: {
+      deps: ['backbone']
     }
   },
   paths: {
@@ -14,6 +17,7 @@ require.config({
     jquery: 'libs/jquery/jquery-ui-min',
     jquerylibs: 'libs/jquery/jquery-min',
     bootstraplibs: 'vendor/bootstrap.min',
+    routefilter: 'libs/backbone/backbone.routefilter.min',
     underscore: 'libs/underscore/underscore-min', // https://github.com/amdjs
     lodash: 'libs/lodash/lodash', // alternative to underscore
     backbone: 'libs/backbone/backbone-min', // https://github.com/amdjs
@@ -32,11 +36,12 @@ require.config({
 // Let's kick off the application
 
 require([
+  'backbone',
   'views/app',
   'router',
   'vm',
   'libs/misc/utils'
-], function(AppView, Router, Vm){
+], function(Backbone, AppView, Router, Vm){
   window.appView = Vm.create({}, 'AppView', AppView);
   appView.render();
   Router.initialize({appView: appView});  // The router now has a copy of all main appview
