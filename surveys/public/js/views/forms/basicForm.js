@@ -76,7 +76,10 @@ define([
           ModelDetail = ModelDetail.extend({
               defaults: _.extend({},ModelDetail.prototype.defaults, foreignKey)
           });
-          self.arrCollectionsDetails[self.model.details[i].model] = new Backbone.Collection([], {
+
+          var dataCollection = [] || self.model.get(self.model.details[i].field);
+
+          self.arrCollectionsDetails[self.model.details[i].model] = new Backbone.Collection(dataCollection, {
             model: ModelDetail
           });
           var $table = $('<div/>').table({
