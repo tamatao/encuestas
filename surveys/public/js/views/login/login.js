@@ -32,6 +32,7 @@ define([
         }
         //autentificacion correcta
         appView.setUser(res);
+        appView.render();
         Backbone.history.navigate('dashboard', { trigger : true });
       }, function() {
         console.log('Error al autentificar el usuario')
