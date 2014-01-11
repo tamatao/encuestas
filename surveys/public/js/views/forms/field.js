@@ -68,7 +68,7 @@ define([
         case 'list':
           $formControl.find('input').select2({query: function(query){
             $.ajax(aField.catalog.url, {
-              timeout:180
+              timeout:180000
             }).then(function(response) {
               var data = {results: []};
               $.each(response, function() {
