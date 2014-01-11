@@ -81,8 +81,8 @@ define([
     });
 
     router.on('route:dashboard', function () {
-      require(['views/dashboard/dashboard'], function (DashboardPage) {
-        var dashboardPage = Vm.create(appView, 'DashboardPage', DashboardPage);
+      require(['views/dashboard/dashboard', 'models/survey'], function (DashboardPage, Survey) {
+        var dashboardPage = Vm.create(appView, 'DashboardPage', DashboardPage, , {collection: new Backbone.Collection([], {model: Survey})});
         dashboardPage.render();
       });
     });
