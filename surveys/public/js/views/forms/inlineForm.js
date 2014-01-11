@@ -24,6 +24,7 @@ define([
         self.model = new self.options.collection.model();
         self.setIdModel();
       }
+      self.model.save();
     },
     closeForm: function() {
       var self = this;
