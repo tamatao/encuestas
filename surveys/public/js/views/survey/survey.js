@@ -103,9 +103,9 @@ define([
           }          
         }
 
-        var surveyPage = Vm.create(appView, 'BasicSurvey', BasicSurvey, {model:model}),
+        var surveyPage = Vm.create(appView, 'BasicSurvey', BasicSurvey, {model:model});
         surveyPage.setElement($survey.find('.container-survey'));
-        $form = surveyPage.render();
+        var $form = surveyPage.render();
         $form.find('.form-horizontal').removeClass('form-horizontal')
         $form.find('.col-sm-2').removeClass('col-sm-2')
         $form.find('.col-sm-10').removeClass('col-sm-10')
