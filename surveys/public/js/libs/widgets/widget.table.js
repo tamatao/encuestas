@@ -205,7 +205,7 @@ define(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
         bisEdit = true;     
       }
      
-      require(['views/modal/basicModal', 'views/forms/inlineForm', 'Vm'], function(BasicModal, BasicForm, Vm){
+      require(['views/modal/basicModal', 'views/forms/inlineForm', 'vm'], function(BasicModal, BasicForm, Vm){
         var detailForm = Vm.create(appView, (bisEdit ? 'editDetailForm' : 'detailForm'), BasicForm, {model:aModel, collection: (bisEdit ? null : self.options.collection)});
         var $form = detailForm.render()
         detailForm.hideButtons();
