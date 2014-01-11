@@ -17,14 +17,22 @@ define([
       self.$el.empty().append($(_.template(formBasicTemplate)({modelName: self.model.name})));
     },
     saveData: function(myData) {
-      var self = this;
+      var self = this, bNotSave = false;
       self.model.set(myData);
       if(self.collection) {
         self.collection.add(self.model);
         self.model = new self.options.collection.model();
         self.setIdModel();
       }
-      self.model.save();
+      if(self.model.parents) {
+        for(var i = 0; i < self.model.parents.length; i++) {
+          if(self.model.has(self.model.parents[key].foreign_key['id'])) {
+            bNotSave = false; break;
+          }
+          bNotSave = true;
+        }
+      }
+      if(!bNotSave) self.model.save();
     },
     closeForm: function() {
       var self = this;
