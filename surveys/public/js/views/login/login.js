@@ -28,11 +28,11 @@ define([
             self.$el.find('[name="user"]').val('');
             self.$el.find('[name="password"]').val('');
           });
-          //autentificacion correcta
-          appView.setUser(res);
-          Backbone.history.navigate('dashboard', { trigger : true });
           return;
         }
+        //autentificacion correcta
+        appView.setUser(res);
+        Backbone.history.navigate('dashboard', { trigger : true });
       }, function() {
         console.log('Error al autentificar el usuario')
       })
