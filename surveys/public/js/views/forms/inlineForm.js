@@ -1,6 +1,6 @@
 define([
   'views/forms/basicForm',
-  'text!templates/forms/inlineForm.html',
+  'text!templates/forms/basicForm.html',
 ], function(BasicForm, formBasicTemplate){
   var DashboardPage = BasicForm.extend({
     tagName: 'div',
