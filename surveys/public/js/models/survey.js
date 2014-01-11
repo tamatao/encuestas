@@ -4,7 +4,7 @@ define([
 ], function(_, Backbone) {
   var surveysModel = Backbone.Model.extend({
     name: 'Survey',
-    url: 'users/',
+    urlRoot: 'users/',
     /*events: {
       'change:type': {
         'show': {

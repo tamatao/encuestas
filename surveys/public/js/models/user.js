@@ -4,7 +4,7 @@ define([
 ], function(_, Backbone) {
   var usersModel = Backbone.Model.extend({
     name: 'User',
-    url: 'users',
+    urlRoot: 'users',
     fields: [
       {
         name: 'email',
