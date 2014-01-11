@@ -96,11 +96,9 @@ define([
             });
           } else {
             model.fields.push({
-              {
                 'name': 'FIELD_' + i,
                 'type': 'header',
                 'label': arrFields[i].name
-              }
             });
           }          
         }
