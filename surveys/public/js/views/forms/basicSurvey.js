@@ -11,6 +11,7 @@ define([
     },
     render: function () {
       var self = this;
+      self.loadTemplate();
       self.$el.append(self.renderForm());
       return self.$el;
     },
