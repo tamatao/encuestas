@@ -23,7 +23,7 @@ define([
                 {name:'name', label:'Name'}
               ],
               url:null,
-              collecion:self.collection
+              collection:self.collection
             });
             self.$el.empty().append(tUsers);
           })
