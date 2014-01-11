@@ -23,6 +23,7 @@ define([
     if(tagName == 'INPUT') {
       if(sType == 'checkbox' || sType == 'radio') {
         if(aValue) {
+
         } else {
           sValue = {};
           sValue[this.filter(':checked').val()] = this.filter(':checked').data('description');
@@ -36,7 +37,11 @@ define([
       }     
     } else if(tagName == 'DIV') {
       if(aValue) {
-        this.find('input[data-description="'+aValue+'"]').prop('checked', true);
+        if(this.find('input[data-description="'+aValue+'"]').length) {
+          this.find('input[data-description="'+aValue+'"]').prop('checked', true);
+        } else {
+          this.find('input[value="'+aValue+'"]').prop('checked', true);
+        }
       } else {
         sValue = {};
         sValue[this.find('input:checked').val()] = this.find('input:checked').data('description');
