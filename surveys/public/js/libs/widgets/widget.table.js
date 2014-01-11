@@ -244,22 +244,29 @@ define(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
     _updateUI: function() {
       var self = this;
       if(this.tBody.find('tr').not('.nodata').length) {
-        this.tBody.finderSelect({enableDesktopCtrlDefault:true, dragEvent:'', event:'click'});
-        self.tBody.finderSelect('addHook','highlight:before', function(el) {
-          el.find('input').prop('checked', true);
-          !el.length || self.controlsHeader.find('.btn-trash').show();
-        });
-        self.tBody.finderSelect('addHook','unHighlight:before', function(el) {
-          el.find('input').prop('checked', false);
-          if(self.tBody.find("input[type='checkbox']:checked").length==0) {
-            self.tHead.find("input[type='checkbox']").prop('checked', false);
-            self.controlsHeader.find('.btn-trash').hide();
-          }
-        });
-        self.tBody.on("click", ":checkbox", function(e){
-          //e.preventDefault();
-        });
+        if (!this.tBody.hasClass('finderSelect')) {
+          this.tBody.addClass('finderSelect');
+          this.tBody.finderSelect({enableDesktopCtrlDefault:true, dragEvent:'', event:'click'});
+          self.tBody.finderSelect('addHook','highlight:before', function(el) {
+            el.find('input').prop('checked', true);
+            !el.length || self.controlsHeader.find('.btn-trash').show();
+          });
+          self.tBody.finderSelect('addHook','unHighlight:before', function(el) {
+            el.find('input').prop('checked', false);
+            if(self.tBody.find("input[type='checkbox']:checked").length==0) {
+              self.tHead.find("input[type='checkbox']").prop('checked', false);
+              self.controlsHeader.find('.btn-trash').hide();
+            }
+          });
+          self.tBody.on("click", ":checkbox", function(e){
+            //e.preventDefault();
+          });
+        } else {
+          this.tBody.finderSelect('update');
+        }
+        
         this.tBody.find('.nodata').remove();
+        
         if(self.options.sortable) {
           self.tBody.sortable({ handle: ".handle .fa-sort", axis: "y", forceHelperSize: true, forcePlaceholderSize: true, opacity: 0.5, cursor: "move" });
           self.tBody.sortable({
