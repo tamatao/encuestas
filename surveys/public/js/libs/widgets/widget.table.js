@@ -227,6 +227,7 @@ define(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
         var aId = $(element).data('id'),
         aModel = self.options.collection.get(aId);
         self.options.collection.remove(aModel);
+        aModel.destroy();
         $(element).remove();
       })
       if(this.tBody.find("input[type='checkbox']").length == 0) {
