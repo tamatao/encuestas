@@ -92,7 +92,7 @@ define([
               'label': arrFields[i].name,
               'type': 'single_choice',
               'rules': {required: true},
-              'answers': arrFields[i].answers.split('↵');
+              'answers': arrFields[i].answers.split('↵')
             });
           } else {
             model.fields.push({
