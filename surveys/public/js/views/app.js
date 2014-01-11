@@ -30,7 +30,7 @@ define([
       self.user = aUser;
     },
     isAuth: function() {
-      return $.isPlainObject(self.user);
+      return $.isPlainObject(this.user);
     }
   });
   return AppView;
