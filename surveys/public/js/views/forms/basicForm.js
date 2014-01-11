@@ -77,7 +77,7 @@ define([
               defaults: _.extend({},ModelDetail.prototype.defaults, foreignKey)
           });
 
-          var dataCollection = [] || self.model.get(self.model.details[i].field);
+          var dataCollection = self.model.get(self.model.details[i].field) || [];
 
           self.arrCollectionsDetails[self.model.details[i].model] = new Backbone.Collection(dataCollection, {
             model: ModelDetail
