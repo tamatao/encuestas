@@ -33,6 +33,7 @@ define([
     setIdModel: function() {
       var self = this;
       if(!this.model.id) this.model.id = parseFloat(this.model.cid.replace('c', '')) * -1;
+      self.model.isNew = function (){return this.id < 0};
       self.model.set('id', self.model.id);
     },
     loadTemplate: function() {
