@@ -9,11 +9,6 @@ define([
     el: '.main',
     initialize: function(){
       var self = this;
-      self.model.fetch({success: function(){
-        self.render();
-      }, error: function(){
-        console.log('Error al obtener el modelo de la encuesta')
-      }})
       /*
       self.model.set({
         name: 'Evaluacion de desempeño para directora general',

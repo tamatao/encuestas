@@ -114,7 +114,11 @@ define([
       console.log('Surveyname: ' + surveyName + ', id: ' + id);
       require(['views/survey/survey', 'models/survey'], function (SurveyPage, surveysModel) {
         var surveyPage = Vm.create(appView, 'SurveyPage', SurveyPage, {model: new surveysModel({id:id})});
-        surveyPage.render();
+        surveyPage.model.fetch({success: function(){
+          surveyPage.render();
+        }, error: function(){
+          console.log('Error al obtener el modelo de la encuesta')
+        }})
       });
     })
 
