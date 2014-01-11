@@ -5,6 +5,7 @@ define([
   var fieldModel = Backbone.Model.extend({
     name: 'Field',
     label: 'Pregunta',
+    url: 'field',
     events: {
       'change:type': {
         'show': {
