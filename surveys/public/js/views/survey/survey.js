@@ -83,8 +83,28 @@ define([
       $('body .container header h1').html(self.model.get('name'));
       self.$el.empty().append($survey);
       require(["views/forms/basicSurvey"], function(BasicSurvey) {
-        var model = new Backbone.Model({});
-        model.fields = self.model.get('controls')
+        var model = new Backbone.Model({}), arrFields = self.model.get('fields');
+        model.fields = [];
+        for(var i = 0; i < arrFields.length; i++) {
+          if(arrFields[i].type == 0) {
+            model.fields.push({
+              'name': 'FIELD_' + i,
+              'label': arrFields[i].name,
+              'type': 'single_choice',
+              'rules': {required: true},
+              'answers': arrFields[i].answers.split('↵');
+            });
+          } else {
+            model.fields.push({
+              {
+                'name': 'FIELD_' + i,
+                'type': 'header',
+                'label': arrFields[i].name
+              }
+            });
+          }          
+        }
+
         var surveyPage = Vm.create(appView, 'BasicSurvey', BasicSurvey, {model:model}),
         $form = surveyPage.render();
         $form.find('.form-horizontal').removeClass('form-horizontal')
