@@ -12,12 +12,9 @@ define([
     render: function () {
       var self = this;
       $('body .container header h1').html('Users');
+      self.collection.url = 'users'
       self.collection.fetch({        
         success: function() {
-          var data = [];
-          self.collection.forEach(function(aModel, i){
-            data.push({email:aModel.get('email'), name:aModel.get('name')});
-          })
           require(["libs/widgets/widget.table"], function(){
             var tUsers = $('<div/>').table({
               btnNew: 'users/add',
@@ -26,7 +23,7 @@ define([
                 {name:'name', label:'Name'}
               ],
               url:null,
-              data:data
+              collecion:self.collection
             });
             self.$el.empty().append(tUsers);
           })

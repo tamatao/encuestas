@@ -139,6 +139,10 @@ define(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
           for(var i = 0; i<self.options.data.length; i++) {
             self._addRow(self.options.data[i]);
           }
+        } else if (self.options.collection) {
+          self.options.collection.forEach(function(aModel) {
+            self._addRow(aModel.toJSON());
+          })
         }
         self._onAfterCreatePage();
       }
