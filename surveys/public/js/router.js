@@ -74,8 +74,8 @@ define([
     })
 
     router.on('route:users', function () {
-      require(['views/users/users'], function (UsersPage) {
-        var usersPage = Vm.create(appView, 'UsersPage', UsersPage);
+      require(['views/users/users', 'models/user'], function (UsersPage, User) {
+        var usersPage = Vm.create(appView, 'UsersPage', UsersPage, {collection: new Backbone.Collection([], {model: User})});
         usersPage.render();
       });
     });
