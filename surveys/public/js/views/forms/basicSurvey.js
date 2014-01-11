@@ -12,7 +12,7 @@ define([
     render: function () {
       var self = this;
       self.loadTemplate();
-      self.$el.append(self.renderForm());
+      self.renderForm();
       return self.$el;
     },
     submit: function(){
