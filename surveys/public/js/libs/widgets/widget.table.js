@@ -174,7 +174,7 @@ define(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
         }
         switch(columns[i].type) {
           case 'link':
-            myTD.html($('<a/>', {href:sValue}).html(columns[i].label)).addClass('safezone');
+            myTD.html($('<a/>', {href:sValue}).html(columns[i].label)).addClass('safezone link');
             break;
           default:
             myTD.append($('<span/>', {'class':'safezone open'}).html(sValue));
@@ -189,6 +189,11 @@ define(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
       })
       myTR.find('.safezone.open').on('click', function(e) {
         self._open(row.id);
+      })
+      myTR.find('.safezone.link').on('click', function(e) {
+        var sUrl = $(this).find('a').attr('href');
+        if(sUrl)
+          Backbone.history.navigate(sUrl, { trigger : true });
       })
       if(!bEdit)
         self.tBody.append(myTR);      
