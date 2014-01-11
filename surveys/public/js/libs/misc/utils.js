@@ -29,10 +29,26 @@ define([
           sValue[this.filter(':checked').val()] = this.filter(':checked').data('description');
         }
       } else {
-        if(aValue) {
-          this.val(aValue);
+        if(this.hasClass('select2-offscreen')) {
+          if(aValue){
+            if($.isPlainObject(aValue)) {
+              var res = {};
+              for(var key in aValue) break;
+              res[key] = aValue[key];
+              this.select2('data', res);
+            }
+          } else {
+            sValue = {};
+            if($.isPlainObject(this.select2('data'))) {
+              sValue[this.select2('data')['id']] = this.select2('data')['text'];
+            }
+          }
         } else {
-          sValue = this.val();
+          if(aValue) {
+            this.val(aValue);
+          } else {
+            sValue = this.val();
+          }
         }
       }     
     } else if(tagName == 'DIV') {
