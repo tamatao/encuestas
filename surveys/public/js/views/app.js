@@ -4,8 +4,9 @@ define([
   'backbone',
   'vm',
   'events',
+  'models/user',
   'text!templates/layout.html'
-], function($, _, Backbone, Vm, Events, layoutTemplate){
+], function($, _, Backbone, Vm, Events, User, layoutTemplate){
   var AppView = Backbone.View.extend({
     el: 'body',
     initialize: function () {
@@ -22,6 +23,14 @@ define([
         var headerVerticalMenuView = Vm.create(that, 'HeaderVerticalMenuView', HeaderVerticalMenuView);
         headerVerticalMenuView.render();
       });    
+    },
+    setUser: function(data) {
+      var self = this, aUser = new User();
+      aUser.set(data);
+      self.user = aUser;
+    },
+    isAuth: function() {
+      return $.isPlainObject(self.user);
     }
   });
   return AppView;

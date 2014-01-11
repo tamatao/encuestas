@@ -28,6 +28,9 @@ define([
             self.$el.find('[name="user"]').val('');
             self.$el.find('[name="password"]').val('');
           });
+          //autentificacion correcta
+          appView.setUser(res);
+          Backbone.history.navigate('dashboard', { trigger : true });
           return;
         }
       }, function() {

@@ -30,7 +30,7 @@ define([
     before: function( route, params ) { 
       console.debug('before', route, params);
       //checamos si el usuario esta autentificado o no, despues revisamos si la ruta necesita autentificacion
-      var isAuth = false;
+      var isAuth = appView.isAuth();
       var path = Backbone.history.fragment;
       var needAuth = _.contains(this.requresAuth, path);
       var cancleAccess = _.contains(this.preventAccessWhenAuth, path);
