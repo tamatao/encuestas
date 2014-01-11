@@ -71,9 +71,9 @@ define([
               timeout:180000
             }).then(function(response) {
               var data = {results: []};
-              $.each(response, function() {
+              $.each(response, function(i, item) {
                 if(query.term.length == 0 || this.text.toUpperCase().indexOf(query.term.toUpperCase()) >= 0 ){
-                  data.results.push({id: aField.catalog.id, text: aField.catalog.text });
+                  data.results.push({id: item[aField.catalog.id], text: item[aField.catalog.text] });
                 }
               });     
               query.callback(data);             
