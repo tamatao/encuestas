@@ -20,7 +20,8 @@ define([
               btnNew: 'users/add',
               columns:[
                 {name:'email', label:'eMail'},
-                {name:'name', label:'Name'}
+                {name:'name', label:'Nombre'},
+                {name:'cliente', label:'Cliente'}
               ],
               url:null,
               collection:self.collection

@@ -31,6 +31,14 @@ define([
         }
       },
       {
+        name: 'cliente',
+        type: 'text',
+        label: 'Cliente',
+        rules: {
+          required: true
+        }
+      },
+      {
         name: 'puesto',
         type: 'text',
         label: 'Puesto',
