@@ -26,7 +26,7 @@ define([
       }
       if(self.model.parents) {
         for(var i = 0; i < self.model.parents.length; i++) {
-          if(self.model.has(self.model.parents[key].foreign_key['id'])) {
+          if(self.model.get(self.model.parents[i].foreign_key['id']) > 0) {
             bNotSave = false; break;
           }
           bNotSave = true;
