@@ -51,8 +51,6 @@ define([
           break;
       }
 
-      !aValue || $input.value(aValue);
-
       if(aField.type != 'single_choice') {
         $input.addClass('form-control')
         $input.attr('name', aField.name);
@@ -85,6 +83,8 @@ define([
       if(aField.type == 'hidden') {
         self.$el.hide();
       }
+
+      !aValue || $input.value(aValue);
       
       return self.$el;
     }

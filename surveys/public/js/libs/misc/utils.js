@@ -34,7 +34,8 @@ define([
             if($.isPlainObject(aValue)) {
               var res = {};
               for(var key in aValue) break;
-              res[key] = aValue[key];
+              res['id'] = key;
+              res['text'] = aValue[key];
               this.select2('data', res);
             }
           } else {
