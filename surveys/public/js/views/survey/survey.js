@@ -108,8 +108,8 @@ define([
           }          
         }
 
-        self.model.set('id_survey', self.model.id);
-        self.model.set('id_user', appView.user.id);
+        model.set('id_survey', self.model.id);
+        model.set('id_user', appView.user.id);
         var surveyPage = Vm.create(appView, 'BasicSurvey', BasicSurvey, {model:model});
         surveyPage.setElement($survey.find('.container-survey'));
         var $form = surveyPage.render();
