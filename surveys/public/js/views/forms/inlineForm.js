@@ -21,7 +21,6 @@ define([
       self.model.set(myData);
       if(self.collection) {
         self.collection.add(self.model);
-        self.model = new self.options.collection.model();
         self.setIdModel();
       }
       if(self.model.parents) {
@@ -33,6 +32,7 @@ define([
         }
       }
       if(!bNotSave) self.model.save();
+      if(self.collection) self.model = new self.options.collection.model();
     },
     closeForm: function() {
       var self = this;
