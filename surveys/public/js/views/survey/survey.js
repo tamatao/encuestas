@@ -108,6 +108,15 @@ define([
           }          
         }
 
+        if(self.model.get('comments') == 2) {
+          model.fields.push({
+            'name': 'comments',
+            'label': 'Comentarios',
+            'type': 'textarea',
+            'rules': {required: true}
+          });
+        }
+
         model.set('id_survey', self.model.id);
         model.set('id_user', appView.user.id);
         var surveyPage = Vm.create(appView, 'BasicSurvey', BasicSurvey, {model:model});
