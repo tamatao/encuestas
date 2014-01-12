@@ -2,6 +2,8 @@ define(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
   console.log('table')
   $.widget("ui.table", {
     options: {
+      canAdd: true,
+      canEdit: true,
       url: null,
       checkbox: true,
       columns:[],
@@ -57,7 +59,7 @@ define(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
       btnNew = $('<a/>', {'class': 'btn btn-primary btn-mini btn-new', href:self.options.btnNew}).html('New');
       btnRemove = $('<button/>', {'class': 'btn btn-primary btn-mini btn-trash'}).hide().html('Send Selected to Trash');
       console.debug(self.options.type)
-      if(self.options.type != 'inline')
+      if(self.options.type != 'inline' && self.options.canAdd)
         list.append($('<li/>').append(btnNew));
       list.append($('<li/>').append(btnRemove));
 
@@ -186,7 +188,7 @@ define(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
             myTD.html($('<a/>', {href:sValue}).html(columns[i].label)).addClass('safezone link');
             break;
           default:
-            myTD.append($('<span/>', {'class':'safezone open'}).html(sValue));
+            myTD.append($('<span/>', {'class':'safezone ' + (self.options.canEdit ? 'open':'')}).html(sValue));
         }        
         myTR.append(myTD);
       }
