@@ -22,6 +22,10 @@ define([
       require(['views/verticalmenu/menu'], function (HeaderVerticalMenuView) {
         var headerVerticalMenuView = Vm.create(that, 'HeaderVerticalMenuView', HeaderVerticalMenuView);
         headerVerticalMenuView.render();
+        if(appView.user && appView.user.get('type') == 1) {
+          headerVerticalMenuView.$el.find('.fa-users').remove();
+          headerVerticalMenuView.$el.find('.fa-cogs').remove();
+        }
       });    
     },
     setUser: function(data) {
