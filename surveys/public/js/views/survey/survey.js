@@ -87,12 +87,17 @@ define([
         model.fields = [];
         for(var i = 0; i < arrFields.length; i++) {
           if(arrFields[i].type == 0) {
+            var answers = [], answersRes = arrFields[i].answers.split("\n");
+            for(var x = 0; x < answersRes.length; x++) {
+              answers.push({value:x+1, text:answersRes[x]});
+            }
+
             model.fields.push({
               'name': 'FIELD_' + i,
               'label': arrFields[i].name,
               'type': 'single_choice',
               'rules': {required: true},
-              'answers': arrFields[i].answers.split("\n")
+              'answers': answers
             });
           } else {
             model.fields.push({
@@ -109,7 +114,7 @@ define([
         $form.find('.form-horizontal').removeClass('form-horizontal')
         $form.find('.col-sm-2').removeClass('col-sm-2')
         $form.find('.col-sm-10').removeClass('col-sm-10')
-        $survey.find('.container-survey').append($form);
+        //$survey.find('.container-survey').append($form);
       })
     }
   });
