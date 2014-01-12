@@ -9,7 +9,6 @@ define([
     render: function () {
       var self = this;
       $('body .container header h1').html('Dashboard');
-      $(this.el).html('dashboard');
       self.collection.url = 'survey'
       self.collection.fetch({
         success: function() {
