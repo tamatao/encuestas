@@ -134,6 +134,9 @@ define(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
       var self = this;
       if(self.options.url) {
         $.ajax({url:self.options.url, data:{}}).then(function(res){
+          for(var i = 0; i<res.length; i++) {
+            self._addRow(res[i]);
+          }
           self._onAfterCreatePage();
         }, function(res) {
 
