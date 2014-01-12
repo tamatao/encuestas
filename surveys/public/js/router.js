@@ -16,6 +16,8 @@ define([
       'users/add': 'form',
       'survey/add': 'form',
       'manager': 'manager',
+      //pages mySurvey
+      'mysurveys': 'mysurveys',
       //pages surveys
       'surveys/:name/:id': 'showSurvey',
       'login':'login',
@@ -24,7 +26,7 @@ define([
       '*actions': 'defaultAction'
     },
     // Routes que necesitan autentificacion y si el usuario no esta autentificado lo mandamos a la pagina de login
-    requresAuth : ['users', 'users/add', 'dashboard', 'configuration', 'survey/add'],
+    requresAuth : ['users', 'users/add', 'dashboard', 'configuration', 'survey/add', 'mysurveys'],
     // Routes que no son accesibles si el usuario esta autentificado
     preventAccessWhenAuth : ['#login'],
     before: function( route, params ) { 
@@ -84,6 +86,13 @@ define([
       require(['views/dashboard/dashboard', 'models/survey'], function (DashboardPage, Survey) {
         var dashboardPage = Vm.create(appView, 'DashboardPage', DashboardPage, {collection: new Backbone.Collection([], {model: Survey})});
         dashboardPage.render();
+      });
+    });
+
+    router.on('route:mysurveys', function () {
+      require(['views/mySurvey/mySurvey'], function (MySurveyPage) {
+        var mySurveyPage = Vm.create(appView, 'MySurveyPage', MySurveyPage, {});
+        mySurveyPage.render();
       });
     });
 

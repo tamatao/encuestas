@@ -33,7 +33,11 @@ define([
         //autentificacion correcta
         appView.setUser(res);
         appView.render();
-        Backbone.history.navigate('dashboard', { trigger : true });
+        if(appView.user.get('type') == 1) {
+          Backbone.history.navigate('mysurveys', { trigger : true });
+        } else {
+          Backbone.history.navigate('dashboard', { trigger : true });
+        }
       }, function() {
         console.log('Error al autentificar el usuario')
       })
