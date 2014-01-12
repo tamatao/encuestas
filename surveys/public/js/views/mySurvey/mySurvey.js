@@ -13,6 +13,8 @@ define([
       require(["libs/widgets/widget.table"], function(){
         console.log('surveys table');
         var tSurveys = $('<div/>').table({
+          canAdd: false,
+          canEdit: false,
           columns:[
             {name:'name', label:'Nombre'},
             {name:'puesto', label:'Puesto'},
