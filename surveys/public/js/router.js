@@ -83,6 +83,10 @@ define([
     });
 
     router.on('route:dashboard', function () {
+      if(appView.user.get('type') == 1) {
+        Backbone.history.navigate('mysurveys', { trigger : true });
+        return;
+      }
       require(['views/dashboard/dashboard', 'models/survey'], function (DashboardPage, Survey) {
         var dashboardPage = Vm.create(appView, 'DashboardPage', DashboardPage, {collection: new Backbone.Collection([], {model: Survey})});
         dashboardPage.render();
