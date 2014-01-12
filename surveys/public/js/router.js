@@ -26,7 +26,7 @@ define([
       '*actions': 'defaultAction'
     },
     // Routes que necesitan autentificacion y si el usuario no esta autentificado lo mandamos a la pagina de login
-    requresAuth : ['users', 'users/add', 'dashboard', 'configuration', 'survey/add', 'mysurveys'],
+    requresAuth : ['users', 'users/add', 'dashboard', 'configuration', 'survey/add', 'mysurveys', 'report'],
     // Routes que no son accesibles si el usuario esta autentificado
     preventAccessWhenAuth : ['#login'],
     before: function( route, params ) { 
@@ -71,7 +71,7 @@ define([
     router.on('route:report', function() {
       require(['views/report/report'], function(ReportView) {
         var reportView = Vm.create(appView, 'ReportView', ReportView);
-        $('.main').append(reportView.render());
+        $('.main').empty().append(reportView.render());
       })
     })
 
