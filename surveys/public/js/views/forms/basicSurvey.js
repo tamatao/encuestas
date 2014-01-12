@@ -22,7 +22,6 @@ define([
       var myData = self.$el.find('form').serializeObject();
       self.model.urlRoot = 'SurveyResults';
       self.model.set(myData);
-      self.model.set('id_user', appView.user.id);
       self.model.save();
 
       return false;
