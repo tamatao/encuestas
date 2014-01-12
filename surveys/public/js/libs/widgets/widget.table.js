@@ -41,7 +41,11 @@ define(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
           self._updateUI();
         })
         self.options.collection.on('change', function(aModel)  {
-          self._addRow(aModel.attributes);
+          if(aModel.previous('id') < 0 && aModel.id > 0) {
+            self._addRow(aModel.attributes, aModel.previous('id'));
+          } else {
+            self._addRow(aModel.attributes);
+          }
           self._updateUI();
         })
       }
@@ -148,9 +152,11 @@ define(['jquery', 'libs/finderSelect/jquery.finderSelect.min'], function($){
       }
     },
   
-    _addRow: function(row) {
+    _addRow: function(row, previusId) {
       var self = this, myTR = self.tBody.find('TR[data-id="'+ row.id +'"]'), columns = self.options.columns, myTD, bEdit = false, sValue;
-
+      if(previusId) {
+        myTR = self.tBody.find('TR[data-id="'+ previusId +'"]');
+      }
       if(myTR.length == 0) {
         myTR = $("<tr/>");
       } else {
