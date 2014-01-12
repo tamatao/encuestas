@@ -2,8 +2,8 @@ define([
   'lodash',
   'backbone'
 ], function(_, Backbone) {
-  var RelationUserSurveyModel = Backbone.Model.extend({
-    name: 'RelationUserSurveyModel',
+  var user_surveyModel = Backbone.Model.extend({
+    name: 'user_surveyModel',
     label: 'Relacion usuarios / encuesta',
     urlRoot: 'usersurvey',
     fields: [
@@ -43,8 +43,8 @@ define([
       }
     ],
     views: {
-      'relationUserSurvey':{
-        'name':'relationUserSurvey',
+      'user_survey':{
+        'name':'user_survey',
         'columns':[
           {name:'username', label:'Usuario a encuestar'},
           {name:'survey', label:'Encuesta seleccionada'}
@@ -68,5 +68,5 @@ define([
     }
 
   });
-  return RelationUserSurveyModel;
+  return user_surveyModel;
 });

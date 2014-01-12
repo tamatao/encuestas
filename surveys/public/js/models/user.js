@@ -65,7 +65,7 @@ define([
         defaultValue: 'Usuario'
       },
       {
-        name: 'relationUserSurvey',
+        name: 'user_survey',
         type: 'collection'
       }
     ],
@@ -74,9 +74,9 @@ define([
     */
     details:[
       {
-        'model':'relationUserSurvey',
-        'view':'relationUserSurvey',
-        'field':'relationUserSurvey',
+        'model':'user_survey',
+        'view':'user_survey',
+        'field':'user_survey',
         'foreign_key': {
           'id_user':'id'
         }
