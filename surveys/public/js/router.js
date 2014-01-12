@@ -83,7 +83,7 @@ define([
     });
 
     router.on('route:dashboard', function () {
-      if(appView.user.get('type') == 1) {
+      if(appView.user && appView.user.get('type') == 1) {
         Backbone.history.navigate('mysurveys', { trigger : true });
         return;
       }
