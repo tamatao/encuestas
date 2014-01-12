@@ -5,6 +5,7 @@ define([
   var RelationUserSurveyModel = Backbone.Model.extend({
     name: 'RelationUserSurveyModel',
     label: 'Relacion usuarios / encuesta',
+    urlRoot: 'usersurvey',
     fields: [
       {
         name: 'username',
