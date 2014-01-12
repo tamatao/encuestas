@@ -93,7 +93,7 @@ define([
             }
 
             model.fields.push({
-              'name': 'FIELD_' + i,
+              'name': 'FIELD_' + arrFields[i].id,
               'label': arrFields[i].name,
               'type': 'single_choice',
               'rules': {required: true},
@@ -101,7 +101,7 @@ define([
             });
           } else {
             model.fields.push({
-                'name': 'FIELD_' + i,
+                'name': 'FIELD_' + arrFields[i].id,
                 'type': 'header',
                 'label': arrFields[i].name
             });
