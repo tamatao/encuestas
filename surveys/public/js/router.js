@@ -19,7 +19,7 @@ define([
       //pages mySurvey
       'mysurveys': 'mysurveys',
       //pages surveys
-      'surveys/:name/:id': 'showSurvey',
+      'surveys/:name/:id(/:id_user)': 'showSurvey',
       'login':'login',
       'report':'report',
       // Default - catch all
@@ -123,10 +123,10 @@ define([
       })
     });
 
-    router.on('route:showSurvey', function(surveyName, id){
+    router.on('route:showSurvey', function(surveyName, id, id_user){
       console.log('Surveyname: ' + surveyName + ', id: ' + id);
       require(['views/survey/survey', 'models/survey'], function (SurveyPage, surveysModel) {
-        var surveyPage = Vm.create(appView, 'SurveyPage', SurveyPage, {model: new surveysModel({id:id})});
+        var surveyPage = Vm.create(appView, 'SurveyPage', SurveyPage, {model: new surveysModel({id:id, id_user: id_user})});
         surveyPage.model.fetch({success: function(){
           surveyPage.render();
         }, error: function(){
